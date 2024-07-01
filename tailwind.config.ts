@@ -32,6 +32,8 @@ const config = {
         tertiary: "#F26B4E",
         textColor: "#06082E",
         onColor: "#fff",
+        gray1: "#FAF9F9",
+        gray2: "#F0EDED",
 
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
