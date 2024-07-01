@@ -11,6 +11,7 @@ export default function Home() {
           order easily by{" "}
           <span className=" text-primary font-mPlus">Hızlı istek</span>
         </p>
+
         <p className=" font-bold   w-[773px] ">
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Unde, quod!
         </p>
