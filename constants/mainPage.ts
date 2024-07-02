@@ -67,3 +67,62 @@ export const discountSlides = [
     brandImg: "zara.svg",
   },
 ];
+
+export const popularProds = [
+  {
+    store: "/amazon.svg",
+    storeTitle: "amazon",
+    title: "necklace code A43",
+    price: 340,
+    prodImg: "/alangoo.svg",
+  },
+  {
+    store: "/amazon.svg",
+    storeTitle: "amazon",
+    title: "necklace code A43",
+    price: 340,
+    prodImg: "/tishert.svg",
+  },
+  {
+    store: "/amazon.svg",
+    storeTitle: "amazon",
+    title: "necklace code A43",
+    price: 340,
+    prodImg: "/chamedun.svg",
+  },
+  {
+    store: "/amazon.svg",
+    storeTitle: "amazon",
+    title: "necklace code A43",
+    price: 340,
+    prodImg: "/kafsh.svg",
+  },
+  {
+    store: "/amazon.svg",
+    storeTitle: "amazon",
+    title: "necklace code A43",
+    price: 340,
+    prodImg: "/alangoo.svg",
+  },
+  {
+    store: "/amazon.svg",
+    storeTitle: "amazon",
+    title: "necklace code A43",
+    price: 340,
+    prodImg: "/tishert.svg",
+  },
+  {
+    store: "/amazon.svg",
+    storeTitle: "amazon",
+    title: "necklace code A43",
+    price: 340,
+    prodImg: "/chamedun.svg",
+  },
+  {
+    store: "/amazon.svg",
+    storeTitle: "amazon",
+    title: "necklace code A43",
+    price: 340,
+    prodImg: "/kafsh.svg",
+  },
+];

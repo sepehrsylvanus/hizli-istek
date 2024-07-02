@@ -2,12 +2,12 @@
 import React, { useRef, useState } from "react";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-
+import styles from "./slider.module.css";
 import "swiper/css";
 import "swiper/css/pagination";
 
 import "swiper/css";
-import "./slider.css";
+
 import Image from "next/image";
 import { discountSlides } from "@/constants/mainPage";
 
@@ -20,10 +20,13 @@ const SliderSec = () => {
           clickable: true,
         }}
         modules={[Pagination]}
-        className="mySwiper "
+        className={styles.swiper}
       >
         {discountSlides.map((discountSlide, index) => (
-          <SwiperSlide key={index} className=" relative">
+          <SwiperSlide
+            key={index}
+            className={` relative ${styles.swiperSlide}`}
+          >
             <div className="h-[256px] w-full opacity-50 relative">
               <Image
                 src={discountSlide.image}

@@ -87,3 +87,13 @@
 .swiper-pagination {
   bottom: 1em !important;
 }
+
+.swiper-wrapper {
+  padding-bottom: 3.5em !important;
+}
+.swiper-button-next {
+  color: #06082e !important;
+}
+.swiper-button-prev {
+  color: #06082e !important;
+}
