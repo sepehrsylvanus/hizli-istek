@@ -3,6 +3,7 @@ import { Inter, Roboto_Condensed } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/ui/Navbar";
 import Footer from "@/components/ui/Footer";
+import MainImage from "@/components/ui/MainImage";
 
 const inter = Inter({ subsets: ["latin"] });
 const robotoCondensed = Roboto_Condensed({ subsets: ["latin"] });
@@ -22,7 +23,12 @@ export default function RootLayout({
         <link rel="icon" href="/hiShop.svg" sizes="any" />
       </head>
       <body className={robotoCondensed.className}>
-        <Navbar />
+        <div className="z-10">
+          <Navbar />
+        </div>
+        <div>
+          <MainImage />
+        </div>
         {children}
         <Footer />
       </body>

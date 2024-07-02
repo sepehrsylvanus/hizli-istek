@@ -16,7 +16,7 @@ const Navbar: FC<NavbarProps> = ({}) => {
         pathName === "/"
           ? "bg-primaryContainer text-textColor"
           : "bg-tertiary text-onColor"
-      }  h-[80px] flex items-center font-robotoCondensed text-lg`}
+      }  h-[80px] z-50 flex items-center font-robotoCondensed text-lg`}
     >
       <div className="navLeft  flex h-full items-center">
         <Link
