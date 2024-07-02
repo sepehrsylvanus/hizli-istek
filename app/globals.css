@@ -75,3 +75,15 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .socialLinks {
+    @apply transition scale-110;
+  }
+}
+.swiper {
+  height: 150% !important;
+}
+.swiper-pagination {
+  bottom: 1em !important;
+}

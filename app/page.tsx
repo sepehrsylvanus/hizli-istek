@@ -1,3 +1,4 @@
+import SliderSec from "@/components/slider/SliderSec";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { cardDetails, steps } from "@/constants/mainPage";
@@ -54,7 +55,7 @@ export default function Home() {
           {steps.map((step, index) => (
             <div
               key={index}
-              className="eachStep h-[25em] flex flex-col bg-secondary pt-3 gap-7"
+              className="eachStep h-[24em] flex flex-col bg-secondary pt-3 gap-7"
             >
               <div className="upperCard bg-secondaryContainer h-[5em]  px-[4.5rem] flex items-center gap-2 py-8">
                 <p className="bg-white border-tertiary border-2 px-2 rounded-full text-tertiary">
@@ -62,7 +63,7 @@ export default function Home() {
                 </p>
                 <p className=" text-[18px] ">{step.title}</p>
               </div>
-              <div className="lowerCard h-[14.8em] my-6 px-[4.5rem] mt- text-center flex flex-col justify-between gap-7">
+              <div className="lowerCard h-[14.8em]  px-[4.5rem]  text-center flex flex-col justify-between gap-7">
                 <p className="text-start">{step.description}</p>
                 <Image
                   src={`/step${index + 1}.svg`}
@@ -75,6 +76,7 @@ export default function Home() {
           ))}
         </div>
       </section>
+      <SliderSec />
     </div>
   );
 }

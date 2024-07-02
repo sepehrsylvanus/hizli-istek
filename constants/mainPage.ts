@@ -44,3 +44,26 @@ export const steps = [
     description: "Pay the amount of product & delivery.",
   },
 ];
+
+export const discountSlides = [
+  {
+    discount: 50,
+    image: "/slider.jpeg",
+    brandImg: "zara.svg",
+  },
+  {
+    discount: 54,
+    image: "/slider.jpeg",
+    brandImg: "zara.svg",
+  },
+  {
+    discount: 6,
+    image: "/slider.jpeg",
+    brandImg: "zara.svg",
+  },
+  {
+    discount: 65,
+    image: "/slider.jpeg",
+    brandImg: "zara.svg",
+  },
+];

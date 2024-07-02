@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Roboto_Condensed } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/ui/Navbar";
+import Footer from "@/components/ui/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 const robotoCondensed = Roboto_Condensed({ subsets: ["latin"] });
@@ -23,6 +24,7 @@ export default function RootLayout({
       <body className={robotoCondensed.className}>
         <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   );
