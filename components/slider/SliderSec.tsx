@@ -13,7 +13,7 @@ import { discountSlides } from "@/constants/mainPage";
 
 const SliderSec = () => {
   return (
-    <section className="slider h-[13rem] mt-[12em] px-[4.5em]">
+    <section className="slider  mt-[12em] px-[4.5em] ">
       <Swiper
         spaceBetween={30}
         pagination={{

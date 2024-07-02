@@ -1,3 +1,4 @@
+import PopulardProds from "@/components/popularProdsSlider/PopulardProds";
 import SliderSec from "@/components/slider/SliderSec";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -77,6 +78,7 @@ export default function Home() {
         </div>
       </section>
       <SliderSec />
+      <PopulardProds />
     </div>
   );
 }
