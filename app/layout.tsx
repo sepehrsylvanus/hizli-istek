@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/ui/Navbar";
 import Footer from "@/components/ui/Footer";
 import MainImage from "@/components/ui/MainImage";
+import Providers from "@/lib/Providers";
 
 const inter = Inter({ subsets: ["latin"] });
 const robotoCondensed = Roboto_Condensed({ subsets: ["latin"] });
@@ -18,20 +19,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <head>
-        <link rel="icon" href="/hiShop.svg" sizes="any" />
-      </head>
-      <body className={robotoCondensed.className}>
-        <div className="z-10">
-          <Navbar />
-        </div>
-        <div>
-          <MainImage />
-        </div>
-        {children}
-        <Footer />
-      </body>
-    </html>
+    <Providers>
+      <html lang="en">
+        <head>
+          <link rel="icon" href="/hiShop.svg" sizes="any" />
+        </head>
+        <body className={robotoCondensed.className}>
+          <div className="z-10">
+            <Navbar />
+          </div>
+          <div>
+            <MainImage />
+          </div>
+          {children}
+          <Footer />
+        </body>
+      </html>
+    </Providers>
   );
 }

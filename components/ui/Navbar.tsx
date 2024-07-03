@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FC } from "react";
+import { Button } from "./Button";
+import AuthModal from "../authModal/AuthModal";
 
 interface NavbarProps {}
 
@@ -17,7 +19,7 @@ const Navbar: FC<NavbarProps> = ({}) => {
         pathName === "/"
           ? "bg-primaryContainer text-textColor"
           : "bg-tertiary text-onColor"
-      }  h-[80px] z-50 flex items-center font-robotoCondensed text-lg`}
+      }  h-[80px] z-50 flex items-center font-robotoCondensed text-lg justify-between`}
     >
       <div className="navLeft  flex h-full items-center">
         <Link
@@ -47,7 +49,11 @@ const Navbar: FC<NavbarProps> = ({}) => {
           ))}
         </div>
       </div>
-      <div className="navRight"></div>
+      {pathName === "/" && (
+        <div className="navRight">
+          <AuthModal />
+        </div>
+      )}
     </nav>
   );
 };
