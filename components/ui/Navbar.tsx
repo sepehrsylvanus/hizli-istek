@@ -1,4 +1,5 @@
 "use client";
+import { navItems } from "@/constants/navbar";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -26,18 +27,24 @@ const Navbar: FC<NavbarProps> = ({}) => {
           <Image src={"/hiShop.svg"} alt="logo" width={59} height={59} />
         </Link>
         <div className="flex gap-10 items-center">
-          <Link
-            href={"/"}
-            className={`${
-              pathName === "/" && "font-bold  border-b-2 border-onColor"
-            }`}
-          >
-            Home
-          </Link>
-          <Link href={"/"}>Track orders</Link>
-          <Link href={"/"}>Order history</Link>
-          <Link href={"/"}>About us</Link>
-          <Link href={"/"}>Contact us</Link>
+          {navItems.map((navItem, index) => (
+            <Link
+              key={index}
+              href={"/"}
+              className={`${
+                pathName === navItem.path &&
+                "font-bold  border-b-2 border-textColor pb-2 relative top-1"
+              } flex gap-2`}
+            >
+              <Image
+                src={`/icons/${navItem.icon}`}
+                alt={navItem.title}
+                width={24}
+                height={24}
+              />
+              {navItem.title}
+            </Link>
+          ))}
         </div>
       </div>
       <div className="navRight"></div>

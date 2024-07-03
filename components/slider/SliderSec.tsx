@@ -1,6 +1,6 @@
 "use client";
 import React, { useRef, useState } from "react";
-import { Pagination } from "swiper/modules";
+import { Pagination, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import styles from "./slider.module.css";
 import "swiper/css";
@@ -19,7 +19,11 @@ const SliderSec = () => {
         pagination={{
           clickable: true,
         }}
-        modules={[Pagination]}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
+        modules={[Pagination, Autoplay]}
         className={styles.swiper}
       >
         {discountSlides.map((discountSlide, index) => (
