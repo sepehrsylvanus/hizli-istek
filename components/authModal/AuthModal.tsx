@@ -188,7 +188,7 @@ const AuthModal = () => {
             />
             <Button
               type="submit"
-              className="text-onColor  mx-auto  text-[24px] font-light w-[192px] h-[64px] rounded-2xl"
+              className="text-onColor  mx-auto  text-[20px] font-light w-[192px] h-[64px] rounded-2xl"
             >
               Next
             </Button>
