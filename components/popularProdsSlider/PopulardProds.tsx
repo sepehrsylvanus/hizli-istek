@@ -9,6 +9,7 @@ import styles from "./popularProds.module.css";
 import { Navigation } from "swiper/modules";
 import Image from "next/image";
 import { popularProds } from "@/constants/mainPage";
+
 const PopulardProds = () => {
   return (
     <section className="px-7">

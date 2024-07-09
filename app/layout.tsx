@@ -5,6 +5,8 @@ import Navbar from "@/components/ui/Navbar";
 import Footer from "@/components/ui/Footer";
 import MainImage from "@/components/ui/MainImage";
 import Providers from "@/lib/Providers";
+import { cookies } from "next/headers";
+import { getToken } from "@/lib/serverUtils";
 
 const inter = Inter({ subsets: ["latin"] });
 const robotoCondensed = Roboto_Condensed({ subsets: ["latin"] });

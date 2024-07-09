@@ -3,15 +3,50 @@ import { navItems } from "@/constants/navbar";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FC } from "react";
-import { Button } from "./Button";
+import { FC, useEffect, useState } from "react";
 import AuthModal from "../authModal/AuthModal";
+import { getToken } from "@/lib/serverUtils";
+import LoggedInUser from "../loggedInUser/LoggedInUser";
 
-interface NavbarProps {}
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/store";
 
-const Navbar: FC<NavbarProps> = ({}) => {
+const Navbar = () => {
+  const isAuthenticated = useSelector((state: RootState) => state.auth.value);
+  console.log(isAuthenticated);
+  const [showProf, setshowProf] = useState(false);
+  useEffect(() => {
+    console.log(showProf);
+  }, [showProf]);
+
   const pathName = usePathname();
   console.log(pathName);
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      const token = await getToken();
+      console.log(token);
+      setshowProf(!!token);
+    };
+    fetchToken();
+  }, []);
+
+  const updateAuthState = () => {
+    const token = getToken();
+    console.log(token);
+    setshowProf(!!token);
+  };
+
+  useEffect(() => {
+    window.addEventListener("storage", updateAuthState);
+
+    return () => {
+      window.removeEventListener("storage", updateAuthState);
+    };
+  }, []);
+  const openAuth = useSelector((state: RootState) => state.openAuth.value);
+  const step = useSelector((state: RootState) => state.step.value);
+  console.log(openAuth, step);
 
   return (
     <nav
@@ -49,9 +84,15 @@ const Navbar: FC<NavbarProps> = ({}) => {
           ))}
         </div>
       </div>
-      {pathName === "/" && (
+      {pathName === "/" && !isAuthenticated && !openAuth && (
         <div className="navRight">
-          <AuthModal />
+          <AuthModal openAuth={openAuth} step={step} />
+        </div>
+      )}
+
+      {pathName === "/" && isAuthenticated && (
+        <div className="navRight">
+          <LoggedInUser />
         </div>
       )}
     </nav>

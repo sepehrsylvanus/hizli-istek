@@ -1,9 +1,8 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -43,32 +42,69 @@ import Image from "next/image";
 import { FaAngleDown } from "react-icons/fa";
 import { Separator } from "../ui/separator";
 import { users } from "@/constants/fakeData";
-
+import { usePathname, useRouter } from "next/navigation";
+import { useAuth } from "@/features/AuthContext";
+import { useAuthModal } from "@/features/AuthModalContext";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/app/store";
+import { login } from "@/features/authSlice";
+import { nextLeve } from "@/features/stepSlice";
+import { toggle } from "@/features/openAuthSlice";
 type Code = {
   image: string;
   code: string;
   alt: string;
 };
 
+interface testProps {
+  step: string;
+  openAuth: boolean;
+}
+
 // ============= MAIN COMPONENT ============
-const AuthModal = () => {
-  const [step, setStep] = useState("phone");
+const AuthModal: FC<testProps> = ({ step, openAuth }) => {
+  console.log(step, openAuth);
+  useEffect(() => {
+    console.log(step, openAuth);
+  }, [step, openAuth]);
+
+  const pathName = usePathname();
+  const dispatch = useDispatch();
+  // =========== STATES ===========
+
   const [codes, setCodes] = useState<Code[]>([]);
   const [OTP, setOTP] = useState<number>();
   const [sent, setSent] = useState(false);
   const [countdown, setCountdown] = useState<number>(0);
-
+  const [btnDisable, setBtnDisable] = useState(true);
+  const [test, setTest] = useState(false);
   useEffect(() => {
-    console.log(sent);
-  }, [sent]);
+    console.log(test);
+  }, [test]);
+
+  const handleChangeTest = () => {
+    setTest((prev) => !prev);
+  };
+  // =========== END OF STATES ===========
 
   //   ============ FORM CONFIGS============
 
   const formSchema = z.object({
     code: z.string(),
     phoneNumber: z.string(),
-    password: z.string().optional().or(z.literal("")),
+    password: z
+      .string()
+      .min(6, { message: "It must be more than 5 characters." })
+      .optional()
+      .or(z.literal("")),
     otp: z.string().optional().or(z.literal("")),
+    name: z.string().optional().or(z.literal("")),
+    lastName: z.string().optional(),
+    repeatPassword: z
+      .string()
+      .min(6, { message: "It must be more than 6 characters." })
+      .optional()
+      .or(z.literal("")),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -76,40 +112,59 @@ const AuthModal = () => {
     defaultValues: {
       code: "+357",
       phoneNumber: "",
+      otp: "",
+      name: "",
+      password: "",
+      repeatPassword: "",
     },
   });
-  const otpCode = form.watch("otp");
+
   const errors = Object.values(form.formState.errors).map(
     (error) => error.message
   );
-  console.log(errors);
+
   const errorKeys = Object.keys(form.formState.errors);
 
+  // ========== WATCH VALUES ===========
+
   const codeVal = form.watch("code");
+  const otpCode = form.watch("otp");
+
   const mobileVal = form.watch("phoneNumber");
+  const name = form.watch("name");
+  const password = form.watch("password");
+  const repeatPassword = form.watch("repeatPassword");
+  console.log(name);
+  const repeatPassError = form.formState.errors.repeatPassword?.message;
+  const passError = form.formState.errors.password?.message;
+  console.log(passError);
+  // =========== END OF WATCH VALUES ==========
+
   const buttonThings: Code[] = codes.filter((item) => item.code === codeVal);
-  console.log(buttonThings);
+  // ========= FORM SUBMIT =========
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
     const otp = Number(values.otp);
-    console.log(otp);
-    console.log(OTP);
+
     const mobile = values.code + values.phoneNumber;
     const userExist = users.some((user) => user.mobile === mobile);
-    console.log(userExist);
-    console.log(mobile);
-    console.log(step);
+
     if (step === "phone") {
-      console.log("here");
       if (userExist) {
-        setStep("login");
+        dispatch(nextLeve("login"));
       } else {
-        setStep("register");
+        dispatch(nextLeve("register"));
       }
     } else if (step === "login") {
-      console.log("here");
       const user = users.find((user) => user.mobile === mobile);
       if (user?.password === values.password) {
+        document.cookie = "token=token";
+        dispatch(toggle(false));
+
+        dispatch(login());
+        if (pathName === "/") {
+        }
       } else {
         form.setError("password", {
           type: "manual",
@@ -117,14 +172,25 @@ const AuthModal = () => {
         });
       }
     } else if (step === "register") {
-      console.log("here");
       if (OTP !== otp && values.otp?.length === 4) {
-        console.log("here");
         form.setError("otp", {
           type: "manual",
           message: "Your code is not valid",
         });
+      } else {
+        dispatch(nextLeve("finalRegister"));
       }
+    } else if (step === "finalRegister") {
+      if (password !== repeatPassword) {
+        form.setError("repeatPassword", {
+          type: "manual",
+          message: "Passwords doesn't match",
+        });
+      }
+      document.cookie = "token=token";
+      dispatch(toggle(false));
+
+      dispatch(login());
     }
   }
   //   ========= END OF FORM CONFIGS========
@@ -157,6 +223,8 @@ const AuthModal = () => {
 
   // =============== END OF UTILS =============
 
+  // ============ HANDLE EFFECTS ===========
+
   useEffect(() => {
     if (countdown > 0) {
       const timerId = setTimeout(() => setCountdown(countdown - 1), 1000);
@@ -184,8 +252,35 @@ const AuthModal = () => {
     console.log(codes);
   }, [codes]);
 
+  useEffect(() => {
+    console.log(btnDisable);
+  }, [btnDisable]);
+
+  console.log(step);
+  console.log(mobileVal.length);
+
+  useEffect(() => {
+    if (step === "phone") {
+      setBtnDisable(mobileVal.length === 0);
+    } else if (step === "register") {
+      setBtnDisable(otpCode?.length !== 4);
+    } else if (step === "finalRegister") {
+      setBtnDisable(
+        name?.length === 0 ||
+          password?.length === 0 ||
+          repeatPassword?.length === 0
+      );
+    }
+  }, [step, mobileVal, otpCode, name, password, repeatPassword]);
+
+  useEffect(() => {
+    console.log(openAuth);
+  }, [openAuth]);
+
+  // ============== END OF HANDLE EFFECTS ==========
+
   return (
-    <Dialog>
+    <Dialog open={openAuth} onOpenChange={(isOpen) => dispatch(toggle(isOpen))}>
       <DialogTrigger className="bg-white mr-[4.6em] py-3 px-[1.75em] rounded-xl hover:text-onColor transition hover:bg-primary">
         Login
       </DialogTrigger>
@@ -197,21 +292,38 @@ const AuthModal = () => {
               : step === "login"
               ? "Login"
               : "Register"}
-            {errors.length === 0 && (
+            {errors.length === 0 && step !== "finalRegister" && (
               <p className="text-tertiary text-[18px] font-semibold text-center invisible">
                 Placeholder
               </p>
             )}
+            {step === "finalRegister" && (
+              <p className=" text-center font-normal text-lg">
+                Your phone number : {codeVal} {mobileVal}{" "}
+              </p>
+            )}
+            {step === "editProf" && (
+              <p className=" text-center font-normal text-lg flex  justify-center gap-2">
+                Your phone number : {codeVal} {mobileVal}
+                <Image
+                  src={"/icons/edit.svg"}
+                  alt="edit"
+                  width={24}
+                  height={24}
+                />
+              </p>
+            )}
             <div className="overflow-auto max-h-[100px]">
               {/* Add overflow handling and a max height */}
-              {errors.map((error, index) => (
-                <p
-                  key={index}
-                  className="text-tertiary text-[18px] font-semibold text-center"
-                >
-                  {error}
-                </p>
-              ))}
+              {step !== "finalRegister" &&
+                errors.map((error, index) => (
+                  <p
+                    key={index}
+                    className="text-tertiary text-[18px] font-semibold text-center"
+                  >
+                    {error}
+                  </p>
+                ))}
             </div>
           </DialogTitle>
         </DialogHeader>
@@ -229,7 +341,9 @@ const AuthModal = () => {
             <form
               onSubmit={form.handleSubmit(onSubmit)}
               className={`${
-                step !== "register" ? "mt-[4em]" : "mt-[2em]"
+                step.includes("phone") || step.includes("login")
+                  ? "mt-[4em]"
+                  : "mt-[2em]"
               } flex flex-col justify-between h-full`}
             >
               {(step.includes("phone") || step === "login") && (
@@ -254,13 +368,13 @@ const AuthModal = () => {
                                   className="mr-2"
                                 />
                                 {buttonThings[0]?.code}
-                                <FaAngleDown />
-                                <Separator
-                                  orientation="vertical"
-                                  className="mx-[10px]"
-                                />
                               </Button>
+                              <FaAngleDown className="ml-[1em]" />
                             </DropdownMenuTrigger>
+                            <Separator
+                              orientation="vertical"
+                              className="mx-[10px]"
+                            />
                             <DropdownMenuContent className="w-56">
                               <Controller
                                 name="code"
@@ -294,6 +408,7 @@ const AuthModal = () => {
                           <Input
                             placeholder="22XXXXXX"
                             {...field}
+                            // onChange={handleChangeTest}
                             className="border-none outline-none rounded-xl text-[18px] bg-transparent pl-0"
                           />
                         </div>
@@ -344,10 +459,11 @@ const AuthModal = () => {
                       <Button
                         className={`${
                           sent
-                            ? "bg-[#D9D9D9] w-fit text-[#7E7E7E] pointer-events-none text-[14px]"
+                            ? "bg-[#D9D9D9] w-fit text-[#7E7E7E] pointer-events-none text-[14px] "
                             : " text-onColor  w-[154px] text-[18px]"
                         } rounded-xl   h-[56px] font-light mr-2`}
                         onClick={getRandom4DigitNumber}
+                        disabled={sent}
                       >
                         {sent
                           ? `Request code after ${(
@@ -404,9 +520,105 @@ const AuthModal = () => {
                   </div>
                 </div>
               )}
+              {(step === "finalRegister" || step === "editProf") && (
+                <div className="grid grid-cols-2 grid-rows-2 gap-x-[3em] gap-y-[2.5em] w-[424px]">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-normal text-lg">
+                          Name:
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            className="border border-primary rounded-xl  h-[56px] pl-4 outline-none"
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-normal text-lg">
+                          password:
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            className="w-[188px] border border-primary rounded-xl h-[56px] text-center outline-none"
+                          />
+                        </FormControl>
+
+                        {errorKeys.length === 0 && (
+                          <p className=" text-[14px] absolute invisible">
+                            this is an error
+                          </p>
+                        )}
+                        {passError && errorKeys.includes("password") && (
+                          <p className="text-tertiary  w-full text-[14px] absolute">
+                            {passError}
+                          </p>
+                        )}
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="lastName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-normal text-lg">
+                          LastName:
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            className="border border-primary rounded-xl h-[56px]  pl-4 outline-none"
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="repeatPassword"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-normal text-lg">
+                          Repeat password:
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            className="border border-primary rounded-xl h-[56px] text-center outline-none"
+                          />
+                        </FormControl>
+
+                        {errorKeys.length === 0 && (
+                          <p className=" text-[14px] absolute invisible">
+                            this is an error
+                          </p>
+                        )}
+                        {repeatPassError &&
+                          errorKeys.includes("repeatPassword") && (
+                            <p className="text-tertiary  w-full text-[14px] absolute">
+                              {repeatPassError}
+                            </p>
+                          )}
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              )}
               <Button
                 type="submit"
-                className="text-onColor mx-auto text-[20px] font-light w-[192px] h-[64px] rounded-2xl"
+                className="text-onColor mx-auto text-[20px] font-light w-[192px] h-[64px] rounded-2xl disabled:bg-[#D9D9D9] disabled:text-[#7E7E7E]"
+                disabled={btnDisable}
               >
                 Next
               </Button>

@@ -8,10 +8,7 @@ export const navItems = [
     title: "Track orders",
     icon: "trackOrders.svg",
   },
-  {
-    title: "Order history",
-    icon: "orderHistory.svg",
-  },
+
   {
     title: "About us",
     icon: "aboutUs.svg",
