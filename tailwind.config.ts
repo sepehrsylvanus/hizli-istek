@@ -34,6 +34,8 @@ const config = {
         onColor: "#fff",
         gray1: "#FAF9F9",
         gray2: "#F0EDED",
+        gray3: "#D9D9D9",
+        gray4: "#7E7E7E",
 
         destructive: {
           DEFAULT: "hsl(var(--destructive))",

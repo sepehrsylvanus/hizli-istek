@@ -8,7 +8,6 @@ import Providers from "@/lib/Providers";
 import { cookies } from "next/headers";
 import { getToken } from "@/lib/serverUtils";
 
-const inter = Inter({ subsets: ["latin"] });
 const robotoCondensed = Roboto_Condensed({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -24,9 +23,11 @@ export default function RootLayout({
     <Providers>
       <html lang="en">
         <head>
-          <link rel="icon" href="/hiShop.svg" sizes="any" />
+          <link rel="icon" href="/icons/hizliFavicon.svg" sizes="any" />
         </head>
-        <body className={robotoCondensed.className}>
+        <body
+          className={`${robotoCondensed.className} flex flex-col justify-between h-screen`}
+        >
           <div className="z-10">
             <Navbar />
           </div>

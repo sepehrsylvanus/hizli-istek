@@ -1,20 +1,20 @@
 export const navItems = [
   {
     title: "Home",
-    icon: "home.svg",
+    icon: "home",
     path: "/",
   },
   {
     title: "Track orders",
-    icon: "trackOrders.svg",
+    icon: "trackOrders",
   },
 
   {
     title: "About us",
-    icon: "aboutUs.svg",
+    icon: "aboutUs",
   },
   {
     title: "Contact us",
-    icon: "contactUs.svg",
+    icon: "contactUs",
   },
 ];

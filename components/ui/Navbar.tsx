@@ -12,15 +12,15 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/app/store";
 
 const Navbar = () => {
+  const pathName = usePathname();
+
   const isAuthenticated = useSelector((state: RootState) => state.auth.value);
+
   console.log(isAuthenticated);
   const [showProf, setshowProf] = useState(false);
   useEffect(() => {
     console.log(showProf);
   }, [showProf]);
-
-  const pathName = usePathname();
-  console.log(pathName);
 
   useEffect(() => {
     const fetchToken = async () => {
@@ -61,27 +61,37 @@ const Navbar = () => {
           href={"/"}
           className="mr-[3.5em] h-full flex  bg-onColor items-center px-2"
         >
-          <Image src={"/hiShop.svg"} alt="logo" width={59} height={59} />
+          <Image src={"/hizliMain.png"} alt="logo" width={80} height={80} />
         </Link>
         <div className="flex gap-10 items-center">
-          {navItems.map((navItem, index) => (
-            <Link
-              key={index}
-              href={"/"}
-              className={`${
-                pathName === navItem.path &&
-                "font-bold  border-b-2 border-textColor pb-2 relative top-1"
-              } flex gap-2`}
-            >
-              <Image
-                src={`/icons/${navItem.icon}`}
-                alt={navItem.title}
-                width={24}
-                height={24}
-              />
-              {navItem.title}
-            </Link>
-          ))}
+          {navItems.map((navItem, index) => {
+            console.log(
+              `/icons/${navItem.icon}${
+                pathName === "/order" ? "White" : null
+              }.svg`
+            );
+
+            return (
+              <Link
+                key={index}
+                href={"/"}
+                className={`${
+                  pathName === navItem.path &&
+                  "font-bold  border-b-2 border-textColor pb-2 relative top-1"
+                } flex gap-2`}
+              >
+                <Image
+                  src={`/icons/${navItem.icon}${
+                    pathName === "/order" ? "White" : ""
+                  }.svg`}
+                  alt={navItem.title}
+                  width={24}
+                  height={24}
+                />
+                {navItem.title}
+              </Link>
+            );
+          })}
         </div>
       </div>
       {((pathName === "/" && !isAuthenticated) || openAuth) && (

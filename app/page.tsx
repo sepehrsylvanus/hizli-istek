@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { cardDetails, steps } from "@/constants/mainPage";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -27,7 +28,7 @@ export default function Home() {
               <div className="w-[479px] border-tertiary border-[2px] rounded-lg flex justify-between text-onColor">
                 <Input className=" outline-none border-none text-textColor" />
                 <Button className="bg-tertiary hover:bg-tertiaryContainer rounded rounded-s-none">
-                  Confirm
+                  <Link href={"/order"}>Confirm</Link>
                 </Button>
               </div>
             </div>
