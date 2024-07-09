@@ -316,11 +316,15 @@ const AuthModal: FC<testProps> = ({ step, openAuth }) => {
       <DialogContent className="h-[522px] x-[522px] flex flex-col pb-[3em] overflow-hidden px-[3.5em]">
         <DialogHeader className="h-fit">
           <DialogTitle className="text-center text-[20px]">
-            {step === "phone"
+            {!token && step === "phone"
               ? "Login/Register"
-              : step === "login"
+              : !token && step === "login"
               ? "Login"
-              : "Register"}
+              : !token &&
+                (step === "finalRegister" || "register") &&
+                "Register"}
+            {token && (step === "phone" || step === "register") && "Edit phone"}
+            {token && step === "editProf" && "My Account"}
             {errors.length === 0 && step !== "finalRegister" && (
               <p className="text-tertiary text-[18px] font-semibold text-center invisible">
                 Placeholder
@@ -604,7 +608,7 @@ const AuthModal: FC<testProps> = ({ step, openAuth }) => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel className="font-normal text-lg">
-                          LastName:
+                          Last name:
                         </FormLabel>
                         <FormControl>
                           <Input
@@ -651,7 +655,7 @@ const AuthModal: FC<testProps> = ({ step, openAuth }) => {
                 className="text-onColor mx-auto text-[20px] font-light w-[192px] h-[64px] rounded-2xl disabled:bg-[#D9D9D9] disabled:text-[#7E7E7E]"
                 disabled={btnDisable}
               >
-                Next
+                {token ? "Save" : "Next"}
               </Button>
             </form>
           )}
