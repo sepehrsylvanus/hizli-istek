@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useMemo, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -50,6 +50,7 @@ import { RootState } from "@/app/store";
 import { login } from "@/features/authSlice";
 import { nextLeve } from "@/features/stepSlice";
 import { toggle } from "@/features/openAuthSlice";
+import Cookies from "js-cookie";
 type Code = {
   image: string;
   code: string;
@@ -78,6 +79,8 @@ const AuthModal: FC<testProps> = ({ step, openAuth }) => {
   const [countdown, setCountdown] = useState<number>(0);
   const [btnDisable, setBtnDisable] = useState(true);
   const [test, setTest] = useState(false);
+  // const [countries, setCountries] = useState<country[]>();
+  // const [countriesLoading, setCountriesLoading] = useState(false);
   useEffect(() => {
     console.log(test);
   }, [test]);
@@ -124,6 +127,7 @@ const AuthModal: FC<testProps> = ({ step, openAuth }) => {
   );
 
   const errorKeys = Object.keys(form.formState.errors);
+  //   ========= END OF FORM CONFIGS========
 
   // ========== WATCH VALUES ===========
 
@@ -134,10 +138,10 @@ const AuthModal: FC<testProps> = ({ step, openAuth }) => {
   const name = form.watch("name");
   const password = form.watch("password");
   const repeatPassword = form.watch("repeatPassword");
-  console.log(name);
+
   const repeatPassError = form.formState.errors.repeatPassword?.message;
   const passError = form.formState.errors.password?.message;
-  console.log(passError);
+  const token = Cookies.get("token");
   // =========== END OF WATCH VALUES ==========
 
   const buttonThings: Code[] = codes.filter((item) => item.code === codeVal);
@@ -172,12 +176,19 @@ const AuthModal: FC<testProps> = ({ step, openAuth }) => {
         });
       }
     } else if (step === "register") {
-      if (OTP !== otp && values.otp?.length === 4) {
+      console.log(otp);
+      console.log(OTP);
+      console.log(token);
+      if (OTP !== otp || values.otp?.length !== 4) {
         form.setError("otp", {
           type: "manual",
           message: "Your code is not valid",
         });
       } else {
+        if (token) {
+          dispatch(nextLeve("editProf"));
+          return;
+        }
         dispatch(nextLeve("finalRegister"));
       }
     } else if (step === "finalRegister") {
@@ -193,7 +204,7 @@ const AuthModal: FC<testProps> = ({ step, openAuth }) => {
       dispatch(login());
     }
   }
-  //   ========= END OF FORM CONFIGS========
+  // ========= END OF FORM SUBMIT =========
 
   // ============== CUSTOM HOOKS ============
 
@@ -202,14 +213,16 @@ const AuthModal: FC<testProps> = ({ step, openAuth }) => {
   }, [step]);
 
   const { data: countries, isLoading: countriesLoading } = useGetCountries();
-  console.log(countries);
-  const standardCountries = countries?.filter(
-    (country) =>
-      country.name.common === "Iran" ||
-      country.name.common === "Cyprus" ||
-      country.name.common === "Turkey"
-  );
-  console.log(standardCountries);
+
+  const standardCountries = useMemo(() => {
+    return countries?.filter(
+      (country) =>
+        country.name.common === "Iran" ||
+        country.name.common === "Cyprus" ||
+        country.name.common === "Turkey"
+    );
+  }, [countries]);
+
   // ============== END OF CUSTOM HOOKS ============
 
   // =============== UTILS =============
@@ -219,11 +232,23 @@ const AuthModal: FC<testProps> = ({ step, openAuth }) => {
     const OTP = Math.floor(Math.random() * 9000) + 1000;
     setOTP(OTP);
     alert(OTP);
+    console.log("OTP => ", OTP);
   }
 
   // =============== END OF UTILS =============
 
   // ============ HANDLE EFFECTS ===========
+
+  // useEffect(() => {
+  //   const fetchCountries = async () => {
+  //     setCountriesLoading(true);
+  //     const res = await fetch("https://restcountries.com/v3.1/all");
+  //     const countries: country[] = await res.json();
+  //     setCountries(countries);
+  //     setCountriesLoading(false);
+  //   };
+  //   fetchCountries();
+  // }, []);
 
   useEffect(() => {
     if (countdown > 0) {
@@ -235,6 +260,7 @@ const AuthModal: FC<testProps> = ({ step, openAuth }) => {
   }, [countdown]);
 
   useEffect(() => {
+    const codes: { image: string; code: string; alt: string }[] = [];
     standardCountries?.forEach((country) => {
       console.log(country.flags.svg);
       console.log(country.idd);
@@ -244,8 +270,9 @@ const AuthModal: FC<testProps> = ({ step, openAuth }) => {
         code: `${country.idd.root}${country.idd.suffixes}`,
         alt: country.flags.alt,
       };
-      setCodes((prev) => [...prev, code]);
+      codes.push(code);
     });
+    setCodes(codes);
   }, [countries]);
 
   useEffect(() => {
@@ -281,9 +308,11 @@ const AuthModal: FC<testProps> = ({ step, openAuth }) => {
 
   return (
     <Dialog open={openAuth} onOpenChange={(isOpen) => dispatch(toggle(isOpen))}>
-      <DialogTrigger className="bg-white mr-[4.6em] py-3 px-[1.75em] rounded-xl hover:text-onColor transition hover:bg-primary">
-        Login
-      </DialogTrigger>
+      {step !== "editProf" && (
+        <DialogTrigger className="bg-white mr-[4.6em] py-3 px-[1.75em] rounded-xl hover:text-onColor transition hover:bg-primary">
+          Login
+        </DialogTrigger>
+      )}
       <DialogContent className="h-[522px] x-[522px] flex flex-col pb-[3em] overflow-hidden px-[3.5em]">
         <DialogHeader className="h-fit">
           <DialogTitle className="text-center text-[20px]">
@@ -306,10 +335,12 @@ const AuthModal: FC<testProps> = ({ step, openAuth }) => {
               <p className=" text-center font-normal text-lg flex  justify-center gap-2">
                 Your phone number : {codeVal} {mobileVal}
                 <Image
+                  onClick={() => dispatch(nextLeve("phone"))}
                   src={"/icons/edit.svg"}
                   alt="edit"
                   width={24}
                   height={24}
+                  className=" cursor-pointer"
                 />
               </p>
             )}

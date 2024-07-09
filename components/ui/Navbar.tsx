@@ -84,7 +84,7 @@ const Navbar = () => {
           ))}
         </div>
       </div>
-      {pathName === "/" && !isAuthenticated && !openAuth && (
+      {((pathName === "/" && !isAuthenticated) || openAuth) && (
         <div className="navRight">
           <AuthModal openAuth={openAuth} step={step} />
         </div>
