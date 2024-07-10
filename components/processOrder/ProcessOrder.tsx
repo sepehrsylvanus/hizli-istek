@@ -8,7 +8,7 @@ import { Input } from "../ui/Input";
 import { FiMinus } from "react-icons/fi";
 import Lottie from "lottie-react";
 import orangeLoader from "@/public/orangeLoader.json";
-const AddLink = () => {
+const ProcessOrder = () => {
   return (
     <div className="h-full flex flex-col items-center justify-between ">
       <div className="eachOrder px-[5em] w-full">
@@ -41,42 +41,12 @@ const AddLink = () => {
             <div className=" w-[20em] h-7 flex items-center">
               <Lottie animationData={orangeLoader} loop={true} />
             </div>
-            <div className="relative bottom-3.5">
-              <p className="text-4.5 font-semibold mb-3">Quantity</p>
-              <div className="flex gap-2.5">
-                <Button size="icon" className=" bg-tertiary rounded-xl">
-                  <GoPlus className="text-white text-[20px]" />
-                </Button>
-                <Input
-                  value="1"
-                  className=" w-[6.5em] rounded-xl border border-tertiary text-center"
-                />
-                <Button size="icon" className=" bg-tertiary rounded-xl">
-                  <FiMinus className="text-white text-[20px]" />
-                </Button>
-              </div>
-            </div>
+            <div></div>
           </div>
         </div>
-        <div className="border border-primaryContainer rounded-2xl p-4 mt-4">
-          <p>description:</p>
-          <Input className="border-none outline-none" />
-        </div>
-        <Button className="  rounded-2xl bg-transparent border border-gray2 hover:bg-transparent font-normal flex gap-2 items-center py-[1em] px-[1em] mt-4 text text-[24px]">
-          <Image
-            src={"/icons/addSquareOrange.svg"}
-            alt="add"
-            width={40}
-            height={40}
-          />
-          Add more link
-        </Button>
       </div>
-      <Button className="bg-tertiary w-fit text-white font-normal text-[20px]  px-[4em] py-8 rounded-2xl">
-        Confirm link
-      </Button>
     </div>
   );
 };
 
-export default AddLink;
+export default ProcessOrder;

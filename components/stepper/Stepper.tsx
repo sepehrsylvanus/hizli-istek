@@ -10,13 +10,17 @@ interface StepperProps {
   pages: React.ReactNode[];
 }
 const Stepper: FC<StepperProps> = ({ data, pages }) => {
-  const [activeSteps, setActiveSteps] = useState<number[]>([0]);
+  const [activeSteps, setActiveSteps] = useState<number[]>([0, 1]);
   console.log(pages);
   return (
-    <div className="">
+    <div className="h-full">
       <ol className="flex items-center justify-center  w-full p-3 space-x-2 text-sm font-medium text-center text-gray-500 bg-white  dark:text-gray-400 sm:text-base dark:bg-gray-800 dark:border-gray-700 sm:p-4 sm:space-x-4 rtl:space-x-reverse">
         {data.map((item, index) => {
-          console.log(`/icons/${item.icon}.svg`);
+          console.log(
+            `/icons/${item.icon}${
+              activeSteps.includes(index) ? "White" : undefined
+            }.svg`
+          );
 
           return (
             <li
@@ -31,7 +35,9 @@ const Stepper: FC<StepperProps> = ({ data, pages }) => {
                     } rounded-full shrink-0 `}
                   >
                     <Image
-                      src={`/icons/${item.icon}.svg`}
+                      src={`/icons/${item.icon}${
+                        activeSteps.includes(index) ? "White" : ""
+                      }.svg`}
                       alt="Step icon"
                       width={40}
                       height={40}
@@ -39,7 +45,7 @@ const Stepper: FC<StepperProps> = ({ data, pages }) => {
                   </span>
                   <p
                     className={`${
-                      activeSteps.includes(index)
+                      activeSteps.includes(index + 1)
                         ? "text-primary"
                         : "text-gray4"
                     }`}
@@ -49,7 +55,7 @@ const Stepper: FC<StepperProps> = ({ data, pages }) => {
                 </div>
                 {index !== data.length - 1 && (
                   <div>
-                    {activeSteps.includes(index) && (
+                    {activeSteps.includes(index + 1) && (
                       <Image
                         src={"/icons/arrowPrimary.svg"}
                         alt="arrow"
@@ -58,7 +64,7 @@ const Stepper: FC<StepperProps> = ({ data, pages }) => {
                         className="mx-[2.5em] relative bottom-4"
                       />
                     )}
-                    {!activeSteps.includes(index) && (
+                    {!activeSteps.includes(index + 1) && (
                       <Image
                         src={"/icons/arrowGray.svg"}
                         alt="arrow"
