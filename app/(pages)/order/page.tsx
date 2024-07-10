@@ -1,9 +1,16 @@
 import AddLink from "@/components/addLink/AddLink";
+import Address from "@/components/adress/Address";
+import ConfirmProd from "@/components/confirmProd/ConfirmProduct";
 import ProcessOrder from "@/components/processOrder/ProcessOrder";
 import Stepper from "@/components/stepper/Stepper";
 import { orderStepper } from "@/constants/orders";
 
-const pages = [<AddLink key={0} />, <ProcessOrder key={1} />];
+const pages = [
+  <AddLink key={0} />,
+  <ProcessOrder key={1} />,
+  <ConfirmProd key={2} />,
+  <Address key={3} />,
+];
 
 const Order = () => {
   return (

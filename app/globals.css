@@ -4,6 +4,9 @@
 @tailwind utilities;
 
 @layer base {
+  p {
+    @apply text-textColor;
+  }
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;

@@ -72,7 +72,7 @@ const AddLink = () => {
           Add more link
         </Button>
       </div>
-      <Button className="bg-tertiary w-fit text-white font-normal text-[20px]  px-[4em] py-8 rounded-2xl">
+      <Button className="bg-tertiary hover:bg-tertiaryHover w-fit text-white font-normal text-[20px]  px-[4em] py-8 rounded-2xl">
         Confirm link
       </Button>
     </div>

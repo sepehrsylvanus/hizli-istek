@@ -36,6 +36,7 @@ const config = {
         gray2: "#F0EDED",
         gray3: "#D9D9D9",
         gray4: "#7E7E7E",
+        tertiaryHover: "#BF553E",
 
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
