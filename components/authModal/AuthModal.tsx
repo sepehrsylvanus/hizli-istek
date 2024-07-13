@@ -14,7 +14,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 import {
   DropdownMenu,
@@ -22,15 +21,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSeparator,
-  InputOTPSlot,
-} from "@/components/ui/input-otp";
+import { InputOTP, InputOTPSlot } from "@/components/ui/input-otp";
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -78,16 +71,7 @@ const AuthModal: FC<testProps> = ({ step, openAuth }) => {
   const [sent, setSent] = useState(false);
   const [countdown, setCountdown] = useState<number>(0);
   const [btnDisable, setBtnDisable] = useState(true);
-  const [test, setTest] = useState(false);
-  // const [countries, setCountries] = useState<country[]>();
-  // const [countriesLoading, setCountriesLoading] = useState(false);
-  useEffect(() => {
-    console.log(test);
-  }, [test]);
 
-  const handleChangeTest = () => {
-    setTest((prev) => !prev);
-  };
   // =========== END OF STATES ===========
 
   //   ============ FORM CONFIGS============
