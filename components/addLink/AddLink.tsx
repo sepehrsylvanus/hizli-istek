@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "../ui/Button";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import { GoPlus } from "react-icons/go";
@@ -8,7 +8,17 @@ import { Input } from "../ui/Input";
 import { FiMinus } from "react-icons/fi";
 import Lottie from "lottie-react";
 import orangeLoader from "@/public/orangeLoader.json";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
 const AddLink = () => {
+  const [newLink, setNewLink] = useState("");
   return (
     <div className="h-full flex flex-col items-center justify-between ">
       <div className="eachOrder px-[5em] w-full">
@@ -62,15 +72,29 @@ const AddLink = () => {
           <p>description:</p>
           <Input className="border-none outline-none" />
         </div>
-        <Button className="  rounded-2xl bg-transparent border border-gray2 hover:bg-transparent font-normal flex gap-2 items-center py-[1em] px-[1em] mt-4 text text-[24px]">
-          <Image
-            src={"/icons/addSquareOrange.svg"}
-            alt="add"
-            width={40}
-            height={40}
-          />
-          Add more link
-        </Button>
+        <Dialog>
+          <DialogTrigger className="  rounded-2xl bg-transparent border border-gray2 hover:bg-transparent font-normal flex gap-2 items-center py-[1em] px-[1em] mt-4 text text-[24px]">
+            <Image
+              src={"/icons/addSquareOrange.svg"}
+              alt="add"
+              width={40}
+              height={40}
+            />
+            Add more link
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle className="text-center">Add link</DialogTitle>
+
+              <div>
+                <Input
+                  type="text"
+                  className="border border-gray2 rounded-2xl outline-none"
+                />
+              </div>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
       </div>
       <Button className="bg-tertiary hover:bg-tertiaryHover w-fit text-white font-normal text-[20px]  px-[4em] py-8 rounded-2xl">
         Confirm link
