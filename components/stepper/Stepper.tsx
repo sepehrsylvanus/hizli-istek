@@ -10,7 +10,7 @@ interface StepperProps {
   pages: React.ReactNode[];
 }
 const Stepper: FC<StepperProps> = ({ data, pages }) => {
-  const [activeSteps, setActiveSteps] = useState<number[]>([0]);
+  const [activeSteps, setActiveSteps] = useState<number[]>([0, 1, 2, 3, 4]);
   console.log(pages);
   return (
     <div className="h-full">

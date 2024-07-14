@@ -1,13 +1,60 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "../ui/Button";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import { GoPlus } from "react-icons/go";
 import { Input } from "../ui/Input";
 import { FiMinus } from "react-icons/fi";
 import styles from "./ConfirmProd.module.css";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 const ConfirmProd = () => {
+  const [openReject, setOpenReject] = useState(false);
+  const [chosenReason, setChosenReason] = useState("");
+
+  // =========== FORM CONFIGS ==========
+
+  const formSchema = z.object({
+    reason: z.string(),
+    description: z.string().optional(),
+  });
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      reason: "",
+      description: "",
+    },
+  });
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    values.reason = chosenReason;
+    console.log(values);
+    if (!values.reason) {
+      form.setError("reason", {
+        type: "value",
+        message: "Required",
+      });
+    }
+    // setOpenReject(false);
+  }
+
+  const errorKeys = Object.keys(form.formState.errors);
+
+  // =========== END OF FORM CONFIGS ==========
+
   return (
     <div className="h-full flex flex-col items-center justify-between ">
       <div className="eachOrder px-[5em] w-full">
@@ -24,6 +71,7 @@ const ConfirmProd = () => {
             variant="outline"
             size="icon"
             className="bg-transparent border-none absolute top-4 right-4"
+            onClick={() => setOpenReject(true)}
           >
             <IoMdCloseCircleOutline className="w-10 h-10" />
           </Button>
@@ -104,11 +152,136 @@ const ConfirmProd = () => {
           <Button className="bg-tertiary hover:bg-tertiaryHover w-fit text-white font-normal text-[20px]  px-[4em] py-8 rounded-2xl">
             Confirm link
           </Button>
-          <Button className=" w-fit text-textColor border border-gray4 bg-transparent font-normal hover:bg-transparent text-[20px]  px-[4em] py-8 rounded-2xl hover:border-tertiaryHover hover:text-tertiaryHover">
+          <Button
+            className=" w-fit text-textColor border border-gray4 bg-transparent font-normal hover:bg-transparent text-[20px]  px-[4em] py-8 rounded-2xl hover:border-tertiaryHover hover:text-tertiaryHover"
+            onClick={() => setOpenReject(true)}
+          >
             Reject
           </Button>
         </div>
       </div>
+      <Dialog open={openReject} onOpenChange={setOpenReject}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="text-center text-5 font-semibold">
+              Your cancel or reject reasons
+            </DialogTitle>
+          </DialogHeader>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="mt-10">
+              <FormField
+                control={form.control}
+                name="reason"
+                render={({ field }) => (
+                  <FormItem>
+                    <div className="grid grid-cols-2 gap-y-4 gap-x-8">
+                      <div
+                        className={` py-4 px-6 rounded-xl ${
+                          errorKeys.includes("reason") && "border-destructive"
+                        } ${
+                          chosenReason === "detailsMismatch"
+                            ? "bg-tertiary text-onColor border-none"
+                            : "border border-gray4"
+                        } cursor-pointer transition`}
+                        onClick={() => setChosenReason("detailsMismatch")}
+                      >
+                        <p
+                          className={`${
+                            chosenReason === "detailsMismatch" && "text-onColor"
+                          }`}
+                        >
+                          Details are not match
+                        </p>
+                      </div>
+                      <div
+                        className={` py-4 px-6 rounded-xl ${
+                          errorKeys.includes("reason") && "border-destructive"
+                        } ${
+                          chosenReason === "imageMismatch"
+                            ? "bg-tertiary text-onColor border-none"
+                            : "border border-gray4"
+                        } cursor-pointer transition`}
+                        onClick={() => setChosenReason("imageMismatch")}
+                      >
+                        <p
+                          className={`${
+                            chosenReason === "imageMismatch" && "text-onColor"
+                          }`}
+                        >
+                          Image is not match
+                        </p>
+                      </div>
+                      <div
+                        className={` py-4 px-6 rounded-xl ${
+                          errorKeys.includes("reason") && "border-destructive"
+                        } ${
+                          chosenReason === "priceMismatch"
+                            ? "bg-tertiary text-onColor border-none"
+                            : "border border-gray4"
+                        }`}
+                        onClick={() => setChosenReason("priceMismatch")}
+                      >
+                        <p
+                          className={`${
+                            chosenReason === "priceMismatch" && "text-onColor"
+                          }`}
+                        >
+                          others
+                        </p>
+                      </div>
+                      <div
+                        className={` py-4 px-6 rounded-xl ${
+                          errorKeys.includes("reason") && "border-destructive"
+                        } ${
+                          chosenReason === "others"
+                            ? "bg-tertiary text-onColor border-none"
+                            : "border border-gray4"
+                        } cursor-pointer transition`}
+                        onClick={() => setChosenReason("others")}
+                      >
+                        <p
+                          className={`${
+                            chosenReason === "others" && "text-onColor"
+                          }`}
+                        >
+                          Price is not match
+                        </p>
+                      </div>
+                    </div>
+                    {errorKeys.length === 0 && (
+                      <p className="text-sm font-medium text-destructive invisible">
+                        hello
+                      </p>
+                    )}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="flex flex-col justify-between items-center gap-[3em] mt-4">
+                <div className="w-full">
+                  <p className="mb-2">Description:(optional)</p>
+                  <FormField
+                    control={form.control}
+                    name="description"
+                    render={({ field }) => (
+                      <Textarea
+                        {...field}
+                        className="resize-none outline-none border-gray4 h-[6em] rounded-xl"
+                      />
+                    )}
+                  />
+                </div>
+                <Button
+                  className="bg-tertiary hover:bg-tertiaryHover  text-white font-normal text-[20px]  px-[4em] py-8 rounded-2xl w-[12rem] "
+                  type="submit"
+                >
+                  Save
+                </Button>
+              </div>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

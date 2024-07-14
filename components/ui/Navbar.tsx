@@ -13,7 +13,7 @@ import { RootState } from "@/app/store";
 
 const Navbar = () => {
   const pathName = usePathname();
-
+  console.log(pathName);
   const isAuthenticated = useSelector((state: RootState) => state.auth.value);
 
   console.log(isAuthenticated);
@@ -82,7 +82,9 @@ const Navbar = () => {
               >
                 <Image
                   src={`/icons/${navItem.icon}${
-                    pathName === "/order" ? "White" : ""
+                    pathName === "/order" || pathName === "/history"
+                      ? "White"
+                      : ""
                   }.svg`}
                   alt={navItem.title}
                   width={24}

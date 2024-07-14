@@ -21,6 +21,7 @@ import { toggle } from "@/features/openAuthSlice";
 import { nextLeve } from "@/features/stepSlice";
 import { RootState } from "@/app/store";
 import { logout } from "@/features/authSlice";
+import Link from "next/link";
 const LoggedInUser = () => {
   const dispatch = useDispatch();
 
@@ -57,14 +58,16 @@ const LoggedInUser = () => {
               />
               <p>Track active orders</p>
             </AccordionContent>
-            <AccordionContent className="flex gap-2">
-              <Image
-                src={"/icons/receiptItem.svg"}
-                alt="receiptItem"
-                width={24}
-                height={24}
-              />
-              <p>Orders history</p>
+            <AccordionContent>
+              <Link href={"/history"} className="flex gap-2">
+                <Image
+                  src={"/icons/receiptItem.svg"}
+                  alt="receiptItem"
+                  width={24}
+                  height={24}
+                />
+                <p>Orders history</p>
+              </Link>
             </AccordionContent>
           </AccordionItem>
         </Accordion>

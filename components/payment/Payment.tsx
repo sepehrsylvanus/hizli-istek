@@ -256,7 +256,7 @@ const Payment: React.FC = () => {
                     width={12}
                     height={12}
                   />
-                  Order details 1
+                  Product details 1
                 </p>
               </AccordionTrigger>
               <AccordionContent>

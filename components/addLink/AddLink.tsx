@@ -10,8 +10,10 @@ import Lottie from "lottie-react";
 import orangeLoader from "@/public/orangeLoader.json";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -82,17 +84,40 @@ const AddLink = () => {
             />
             Add more link
           </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
+          <DialogContent className="w-[31rem] h-[31rem] flex flex-col">
+            <DialogHeader className="h-fit">
               <DialogTitle className="text-center">Add link</DialogTitle>
-
-              <div>
-                <Input
-                  type="text"
-                  className="border border-gray2 rounded-2xl outline-none"
-                />
-              </div>
             </DialogHeader>
+            <div className="flex flex-col items-center justify-between h-full">
+              <div className="w-full">
+                <div className="flex gap-2 w-full">
+                  <Input
+                    type="text"
+                    className="border border-gray2 rounded-2xl outline-none"
+                  />
+                  <Image
+                    src={"/icons/resetLink.svg"}
+                    alt="resetLink"
+                    width={40}
+                    height={40}
+                  />
+                </div>
+                <Button className="  rounded-2xl bg-transparent hover:bg-transparent font-normal flex gap-2 items-center py-[1em]  mt-4 text text-[24px] px-0">
+                  <Image
+                    src={"/icons/addSquareOrange.svg"}
+                    alt="add"
+                    width={40}
+                    height={40}
+                  />
+                  Add more link
+                </Button>
+              </div>
+              <DialogClose asChild>
+                <Button className="bg-tertiary hover:bg-tertiaryHover w-fit text-white font-normal text-[20px]  px-[4em] py-7 rounded-2xl">
+                  Add
+                </Button>
+              </DialogClose>
+            </div>
           </DialogContent>
         </Dialog>
       </div>
