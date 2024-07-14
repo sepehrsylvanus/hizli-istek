@@ -59,9 +59,16 @@ const Navbar = () => {
       <div className="navLeft  flex h-full items-center">
         <Link
           href={"/"}
-          className="mr-[3.5em] h-full flex  bg-onColor items-center px-2"
+          className={`mr-[3.5em] h-full flex  bg-onColor items-center px-2 ${
+            pathName !== "/" && "bg-tertiary"
+          }`}
         >
-          <Image src={"/hizliMain.png"} alt="logo" width={80} height={80} />
+          <Image
+            src={pathName === "/" ? "/hizliMain.png" : "/hizliOrder.png"}
+            alt="logo"
+            width={80}
+            height={80}
+          />
         </Link>
         <div className="flex gap-10 items-center">
           {navItems.map((navItem, index) => {

@@ -23,14 +23,16 @@ const OrderHistory = () => {
         />
       </div>
       <div className="historyContainer mt-6">
-        {/* <Accordion type="single" collapsible>
+        <Accordion type="single" collapsible>
           <AccordionItem value="item-1">
-            <AccordionTrigger className="bg-secondary px-[3em] py-6 rounded-xl  relative text-onColor -mb-3">
+            <AccordionTrigger
+              className={`bg-secondary px-[3em] py-6 rounded-xl  relative text-onColor -mb-3 text-lg ${styles.customIcon}`}
+            >
               <div className="flex w-full ">
-                <div className="historyDetails ">
-                  <p className="text-onColor">Order code:43453</p>
+                <div className="historyDetails flex flex-col items-start">
+                  <p className="text-onColor">Order code:&nbsp;43453</p>
                   <p className="text-onColor">
-                    Order submitted:2024.04.08 14:50
+                    Order submitted:&nbsp;2024.04.08 14:50
                   </p>
                 </div>
                 <p className="justify-self-center absolute top-6 left-[50%] translate-x-[-50%] text-onColor">
@@ -130,11 +132,11 @@ const OrderHistory = () => {
               </div>
             </AccordionContent>
           </AccordionItem>
-        </Accordion> */}
-        <div className="flex flex-col items-center">
+        </Accordion>
+        {/* <div className="flex flex-col items-center">
           <p className="font-semibold">Your order history is empty</p>
           <Image src={"/cart.svg"} alt="cart" width={450} height={400} />
-        </div>
+        </div> */}
       </div>
     </div>
   );
