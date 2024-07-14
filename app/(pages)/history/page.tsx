@@ -26,6 +26,7 @@ const OrderHistory = () => {
         <Accordion type="single" collapsible>
           <AccordionItem value="item-1">
             <AccordionTrigger
+              iconSize="48"
               className={`bg-secondary px-[3em] py-6 rounded-xl  relative text-onColor -mb-3 text-lg ${styles.customIcon}`}
             >
               <div className="flex w-full ">

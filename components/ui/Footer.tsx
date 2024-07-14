@@ -7,7 +7,7 @@ import { SlSocialGoogle } from "react-icons/sl";
 
 const Footer = () => {
   return (
-    <footer className="flex justify-between py-7 px-[4.5em] bg-primaryContainer text-textColor mt-[11.5em] items-center">
+    <footer className="flex justify-between py-7 px-[4.5em] bg-primaryContainer text-textColor mt-[5em] items-center">
       <div className="links ">
         <ul className=" flex marker:text-secondaryContainer text-lg font-semibold list-none gap-8">
           <Link href={"#"}>

@@ -3,7 +3,7 @@ import { navItems } from "@/constants/navbar";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FC, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import AuthModal from "../authModal/AuthModal";
 import { getToken } from "@/lib/serverUtils";
 import LoggedInUser from "../loggedInUser/LoggedInUser";
@@ -89,7 +89,9 @@ const Navbar = () => {
               >
                 <Image
                   src={`/icons/${navItem.icon}${
-                    pathName === "/order" || pathName === "/history"
+                    pathName === "/order" ||
+                    pathName === "/history" ||
+                    pathName === "/trackOrder"
                       ? "White"
                       : ""
                   }.svg`}
