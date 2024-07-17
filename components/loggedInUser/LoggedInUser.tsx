@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -32,9 +32,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "../ui/Button";
+import { FC } from "react";
 
-const LoggedInUser = () => {
-  const [logout, setLogout] = useState(false);
+interface LoggedInUserProps {
+  setLogoutOpen: Dispatch<SetStateAction<boolean>>;
+}
+
+const LoggedInUser: FC<LoggedInUserProps> = ({ setLogoutOpen }) => {
   const dispatch = useDispatch();
 
   const handleMyAcc = () => {
@@ -84,7 +88,7 @@ const LoggedInUser = () => {
         </Accordion>
         <DropdownMenuItem
           className="text-base pl-4 text-tertiary flex gap-2"
-          onClick={() => setLogout(true)}
+          onClick={() => setLogoutOpen(true)}
         >
           <Image
             src={"/icons/logout.svg"}

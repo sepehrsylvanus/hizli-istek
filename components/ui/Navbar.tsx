@@ -8,16 +8,45 @@ import AuthModal from "../authModal/AuthModal";
 import { getToken } from "@/lib/serverUtils";
 import LoggedInUser from "../loggedInUser/LoggedInUser";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/app/store";
+import Cookies from "js-cookie";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "./Button";
+import { logout } from "@/features/authSlice";
 
 const Navbar = () => {
+  const [logoutOpen, setLogoutOpen] = useState(false);
+
   const pathName = usePathname();
-  console.log(pathName);
+
   const isAuthenticated = useSelector((state: RootState) => state.auth.value);
 
-  console.log(isAuthenticated);
   const [showProf, setshowProf] = useState(false);
+
+  const updateAuthState = () => {
+    const token = getToken();
+    console.log(token);
+    setshowProf(!!token);
+  };
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    window.addEventListener("storage", updateAuthState);
+
+    return () => {
+      window.removeEventListener("storage", updateAuthState);
+    };
+  }, []);
+
   useEffect(() => {
     console.log(showProf);
   }, [showProf]);
@@ -31,22 +60,14 @@ const Navbar = () => {
     fetchToken();
   }, []);
 
-  const updateAuthState = () => {
-    const token = getToken();
-    console.log(token);
-    setshowProf(!!token);
-  };
-
-  useEffect(() => {
-    window.addEventListener("storage", updateAuthState);
-
-    return () => {
-      window.removeEventListener("storage", updateAuthState);
-    };
-  }, []);
   const openAuth = useSelector((state: RootState) => state.openAuth.value);
   const step = useSelector((state: RootState) => state.step.value);
   console.log(openAuth, step);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    setLogoutOpen(false);
+  };
 
   return (
     <nav
@@ -113,9 +134,36 @@ const Navbar = () => {
 
       {pathName === "/" && isAuthenticated && (
         <div className="navRight">
-          <LoggedInUser />
+          <LoggedInUser setLogoutOpen={setLogoutOpen} />
         </div>
       )}
+      <Dialog open={logoutOpen} onOpenChange={setLogoutOpen}>
+        <DialogContent
+          showClose={false}
+          className="w-[500px] h-[236px] px-[3em]"
+        >
+          <DialogHeader>
+            <DialogTitle className="text-center text-xl">
+              Do you really want to log out?
+            </DialogTitle>
+          </DialogHeader>
+          <div className="flex gap-6 justify-center my-[3.75em]">
+            <Button
+              variant="outline"
+              className="w-[192px] h-[64px] py-5 rounded-xl text-xl"
+              onClick={() => setLogoutOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleLogout}
+              className="w-[192px] h-[64px] py-5 rounded-xl text-xl"
+            >
+              Yes, Log out
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </nav>
   );
 };
