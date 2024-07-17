@@ -223,17 +223,6 @@ const AuthModal: FC<testProps> = ({ step, openAuth }) => {
 
   // ============ HANDLE EFFECTS ===========
 
-  // useEffect(() => {
-  //   const fetchCountries = async () => {
-  //     setCountriesLoading(true);
-  //     const res = await fetch("https://restcountries.com/v3.1/all");
-  //     const countries: country[] = await res.json();
-  //     setCountries(countries);
-  //     setCountriesLoading(false);
-  //   };
-  //   fetchCountries();
-  // }, []);
-
   useEffect(() => {
     if (countdown > 0) {
       const timerId = setTimeout(() => setCountdown(countdown - 1), 1000);
@@ -378,7 +367,7 @@ const AuthModal: FC<testProps> = ({ step, openAuth }) => {
                         <div className="border border-primary rounded-xl flex items-center px-2 h-[56px]">
                           <DropdownMenu>
                             <DropdownMenuTrigger className="flex items-center">
-                              <Button className="bg-transparent hover:bg-transparent outline-none text-[18px] pr-0">
+                              <Button className="bg-transparent hover:bg-transparent outline-none text-[18px] pr-0 text-textColor">
                                 <Image
                                   src={buttonThings[0]?.image}
                                   alt={buttonThings[0]?.alt}
