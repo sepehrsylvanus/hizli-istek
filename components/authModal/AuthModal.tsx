@@ -298,7 +298,9 @@ const AuthModal: FC<testProps> = ({ step, openAuth }) => {
   return (
     <Dialog open={openAuth} onOpenChange={(isOpen) => dispatch(toggle(isOpen))}>
       {step !== "editProf" && (
-        <DialogTrigger className="bg-white mr-[4.6em] py-3 px-[1.75em] rounded-xl hover:text-onColor transition hover:bg-primary">
+        <DialogTrigger
+          className={`bg-white mr-[4.6em] py-3 px-[1.75em] rounded-xl hover:text-onColor transition hover:bg-primary text-textColor`}
+        >
           Login
         </DialogTrigger>
       )}

@@ -115,19 +115,18 @@ const Navbar = () => {
         </Link>
         <div className="flex gap-10 items-center">
           {navItems.map((navItem, index) => {
-            console.log(
-              `/icons/${navItem.icon}${
-                pathName === "/order" ? "White" : null
-              }.svg`
-            );
-
             return (
               <Link
                 key={index}
                 href={navItem.path}
                 className={`${
                   pathName === navItem.path &&
+                  pathName === "/" &&
                   "font-bold  border-b-2 border-textColor pb-2 relative top-1"
+                }${
+                  pathName === navItem.path && pathName !== "/"
+                    ? "font-bold  border-b-2 border-white pb-2 relative top-1"
+                    : ""
                 } flex gap-2`}
               >
                 <Image
