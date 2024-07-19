@@ -59,7 +59,7 @@ const Payment: React.FC = () => {
   // ========= END OF FORM CONFIGS ========
 
   return (
-    <div className="h-full flex flex-col items-center justify-between px-[5em]">
+    <div className="h-full flex flex-col items-center justify-between container pb-[3em]">
       <div className="w-full flex gap-8">
         <div className="left w-full flex-1">
           <div className="chooseCard">
@@ -312,7 +312,7 @@ const Payment: React.FC = () => {
           </Accordion>
         </div>
       </div>
-      <div className="flex flex-col gap-10">
+      <div className="flex flex-col gap-10 mb-[5em]">
         <Button className="bg-tertiary hover:bg-tertiaryHover w-fit text-white font-normal text-[20px]  px-[4em] py-8 rounded-2xl">
           Next
         </Button>

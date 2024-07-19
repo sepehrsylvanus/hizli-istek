@@ -10,21 +10,21 @@ import LoggedInUser from "../loggedInUser/LoggedInUser";
 
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/app/store";
-import Cookies from "js-cookie";
+
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "./Button";
 import { logout } from "@/features/authSlice";
-
+import Cookies from "js-cookie";
+import { useGetUser } from "@/hooks/useUser";
 const Navbar = () => {
   const [logoutOpen, setLogoutOpen] = useState(false);
-
+  const token = Cookies.get("token");
   const pathName = usePathname();
 
   const isAuthenticated = useSelector((state: RootState) => state.auth.value);
@@ -38,7 +38,10 @@ const Navbar = () => {
   };
 
   const dispatch = useDispatch();
-
+  console.log(token);
+  const { data: currentUser } = useGetUser(token!);
+  console.log(currentUser);
+  // ============ HANDLE EFFECT ===========
   useEffect(() => {
     window.addEventListener("storage", updateAuthState);
 
@@ -54,11 +57,14 @@ const Navbar = () => {
   useEffect(() => {
     const fetchToken = async () => {
       const token = await getToken();
+
       console.log(token);
       setshowProf(!!token);
     };
     fetchToken();
   }, []);
+
+  // ============ END OF HANDLE EFFECT ===========
 
   const openAuth = useSelector((state: RootState) => state.openAuth.value);
   const step = useSelector((state: RootState) => state.step.value);
@@ -102,7 +108,7 @@ const Navbar = () => {
             return (
               <Link
                 key={index}
-                href={"/"}
+                href={navItem.path}
                 className={`${
                   pathName === navItem.path &&
                   "font-bold  border-b-2 border-textColor pb-2 relative top-1"

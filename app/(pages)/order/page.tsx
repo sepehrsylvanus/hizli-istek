@@ -16,7 +16,7 @@ const pages = [
 
 const Order = () => {
   return (
-    <div className="h-screen w-full">
+    <div className=" w-full">
       <Stepper data={orderStepper} pages={pages} />
     </div>
   );

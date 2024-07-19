@@ -20,10 +20,12 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { useDispatch } from "react-redux";
+import { nextLeve } from "@/features/orderStepSlice";
 const ConfirmProd = () => {
   const [openReject, setOpenReject] = useState(false);
   const [chosenReason, setChosenReason] = useState("");
-
+  const dispatch = useDispatch();
   // =========== FORM CONFIGS ==========
 
   const formSchema = z.object({
@@ -56,8 +58,8 @@ const ConfirmProd = () => {
   // =========== END OF FORM CONFIGS ==========
 
   return (
-    <div className="h-full flex flex-col items-center justify-between ">
-      <div className="eachOrder px-[5em] w-full">
+    <div className="h-full flex flex-col items-center justify-between pb-[3em]">
+      <div className="eachOrder container w-full">
         <div className="orderDetail relative w-full bg-gray2 rounded-lg h-[16.5rem]  flex items-center justify-around">
           <Image
             src={"/amazon.svg"}
@@ -148,8 +150,11 @@ const ConfirmProd = () => {
         <p className="text-[20px] font-[500] text-center">
           Do you confrim your order?
         </p>
-        <div className="flex gap-9">
-          <Button className="bg-tertiary hover:bg-tertiaryHover w-fit text-white font-normal text-[20px]  px-[4em] py-8 rounded-2xl">
+        <div className="flex gap-9 mb-[5em]">
+          <Button
+            className="bg-tertiary hover:bg-tertiaryHover w-fit text-white font-normal text-[20px]  px-[4em] py-8 rounded-2xl"
+            onClick={() => dispatch(nextLeve())}
+          >
             Confirm link
           </Button>
           <Button

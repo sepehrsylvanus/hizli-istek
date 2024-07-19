@@ -40,10 +40,13 @@ import { useAuth } from "@/features/AuthContext";
 import { useAuthModal } from "@/features/AuthModalContext";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/app/store";
-import { login } from "@/features/authSlice";
+
 import { nextLeve } from "@/features/stepSlice";
 import { toggle } from "@/features/openAuthSlice";
 import Cookies from "js-cookie";
+
+import { login, registerUser, sendPhoneNumber } from "@/actions/authActions";
+import { useSetToken } from "@/hooks/useUser";
 type Code = {
   image: string;
   code: string;
@@ -57,6 +60,7 @@ interface testProps {
 
 // ============= MAIN COMPONENT ============
 const AuthModal: FC<testProps> = ({ step, openAuth }) => {
+  const route = useRouter();
   console.log(step, openAuth);
   useEffect(() => {
     console.log(step, openAuth);
@@ -64,6 +68,7 @@ const AuthModal: FC<testProps> = ({ step, openAuth }) => {
 
   const pathName = usePathname();
   const dispatch = useDispatch();
+  const { mutate } = useSetToken();
   // =========== STATES ===========
 
   const [codes, setCodes] = useState<Code[]>([]);
@@ -122,37 +127,42 @@ const AuthModal: FC<testProps> = ({ step, openAuth }) => {
   const name = form.watch("name");
   const password = form.watch("password");
   const repeatPassword = form.watch("repeatPassword");
-
+  const mobile = codeVal + mobileVal;
+  console.log(mobile);
   const repeatPassError = form.formState.errors.repeatPassword?.message;
   const passError = form.formState.errors.password?.message;
   const token = Cookies.get("token");
+  console.log(token);
+  console.log(mobile);
   // =========== END OF WATCH VALUES ==========
 
   const buttonThings: Code[] = codes.filter((item) => item.code === codeVal);
   // ========= FORM SUBMIT =========
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
     const otp = Number(values.otp);
 
     const mobile = values.code + values.phoneNumber;
     const userExist = users.some((user) => user.mobile === mobile);
 
+    const sendPhone = await sendPhoneNumber(mobile);
     if (step === "phone") {
-      if (userExist) {
-        dispatch(nextLeve("login"));
-      } else {
+      console.log(sendPhone);
+      if (sendPhone.status === "signup") {
         dispatch(nextLeve("register"));
+      } else if (sendPhone.status === "login") {
+        dispatch(nextLeve("login"));
       }
     } else if (step === "login") {
       const user = users.find((user) => user.mobile === mobile);
-      if (user?.password === values.password) {
-        document.cookie = "token=token";
-        dispatch(toggle(false));
+      const ifLogin = await login(values.password!, sendPhone.token);
+      console.log(ifLogin);
 
-        dispatch(login());
-        if (pathName === "/") {
-        }
+      if (ifLogin) {
+        mutate(sendPhone.token);
+
+        dispatch(toggle(false));
       } else {
         form.setError("password", {
           type: "manual",
@@ -182,10 +192,18 @@ const AuthModal: FC<testProps> = ({ step, openAuth }) => {
           message: "Passwords doesn't match",
         });
       }
-      document.cookie = "token=token";
-      dispatch(toggle(false));
 
-      dispatch(login());
+      const ifRegistered = await registerUser(
+        values.name!,
+        values.password!,
+        sendPhone.token,
+        values.lastName
+      );
+      console.log(ifRegistered);
+      if (ifRegistered) {
+        mutate(sendPhone.token);
+      }
+      dispatch(toggle(false));
     }
   }
   // ========= END OF FORM SUBMIT =========

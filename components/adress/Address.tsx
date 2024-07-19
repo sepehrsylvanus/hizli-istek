@@ -42,6 +42,8 @@ import { DropdownMenuRadioItem } from "@radix-ui/react-dropdown-menu";
 import { useGetCountries } from "@/hooks/useGetCountries";
 import { all_cities } from "@/constants/orders";
 import { Textarea } from "../ui/textarea";
+import { useDispatch } from "react-redux";
+import { nextLeve } from "@/features/orderStepSlice";
 // ======== MAP SETTINGS ======
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: markerIcon2x.src,
@@ -58,7 +60,7 @@ type Code = {
 const Address: React.FC = () => {
   const [codes, setCodes] = useState<Code[]>([]);
   const { data: countries, isLoading: countriesLoading } = useGetCountries();
-
+  const dispatch = useDispatch();
   const standardCountries = useMemo(() => {
     return countries?.filter(
       (country) =>
@@ -133,7 +135,7 @@ const Address: React.FC = () => {
   };
 
   return (
-    <div className="h-full flex flex-col items-center justify-between ">
+    <div className="h-full flex flex-col items-center justify-between pb-[2em]">
       <div className="flex justify-between w-full">
         <div className="left flex flex-col gap-9 ml-[9em]">
           <p className="text-[18px] font-[500] text-textColor flex gap-3">
@@ -434,8 +436,11 @@ const Address: React.FC = () => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-10">
-        <Button className="bg-tertiary hover:bg-tertiaryHover w-fit text-white font-normal text-[20px]  px-[4em] py-8 rounded-2xl">
+      <div className="flex flex-col gap-10 mb-[5em]">
+        <Button
+          className="bg-tertiary hover:bg-tertiaryHover w-fit text-white font-normal text-[20px]  px-[4em] py-8 rounded-2xl"
+          onClick={() => dispatch(nextLeve())}
+        >
           Next
         </Button>
       </div>

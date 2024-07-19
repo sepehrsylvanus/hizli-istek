@@ -3,6 +3,7 @@ import SliderSec from "@/components/slider/SliderSec";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { cardDetails, steps } from "@/constants/mainPage";
+import { hizliAuth } from "@/utils/axiosInstance";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -24,10 +25,10 @@ export default function Home() {
         <div className="flex mt-[9em]">
           <div className=" flex flex-col items-center ml-[10em]">
             <div>
-              <p>Add your link</p>
+              <p className="text-xl font-medium">Add your link</p>
               <div className="w-[479px] border-tertiary border-[2px] rounded-lg flex justify-between text-onColor">
-                <Input className=" outline-none border-none text-textColor" />
-                <Button className="bg-tertiary hover:bg-tertiaryContainer rounded rounded-s-none">
+                <Input className=" outline-none border-none text-textColor h-[64px]" />
+                <Button className="bg-tertiary text-lg hover:bg-tertiaryContainer rounded rounded-s-none h-[64px]">
                   <Link href={"/order"}>Confirm</Link>
                 </Button>
               </div>
@@ -42,11 +43,11 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="features mt-[12.3em] grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-8 px-[4.5em]">
+      <section className="features mt-[12.3em] grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 i px-[75px] 2xl:container">
         {cardDetails.map((cardDetail, index) => (
           <div
             key={index}
-            className="px-3 bg-onColor py-5 flex flex-col items-center shadow-md rounded-md"
+            className="px-3 bg-onColor py-5 flex flex-col items-center shadow-md rounded-md w-[300px] h-[224px] text-center"
           >
             <Image src={cardDetail.icon} alt="truck" width={104} height={104} />
             <p>{cardDetail.title}</p>

@@ -18,12 +18,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useDispatch } from "react-redux";
+import { nextLeve } from "@/features/orderStepSlice";
 
 const AddLink = () => {
   const [newLink, setNewLink] = useState("");
+  const dispatch = useDispatch();
   return (
-    <div className="h-full flex flex-col items-center justify-between ">
-      <div className="eachOrder px-[5em] w-full">
+    <div className="h-screen flex flex-col items-center justify-between ">
+      <div className="eachOrder container w-full">
         <div className="orderDetail relative w-full bg-gray2 rounded-lg h-[16.5rem]  flex items-center justify-around">
           <Image
             src={"/amazon.svg"}
@@ -121,7 +124,10 @@ const AddLink = () => {
           </DialogContent>
         </Dialog>
       </div>
-      <Button className="bg-tertiary hover:bg-tertiaryHover w-fit text-white font-normal text-[20px]  px-[4em] py-8 rounded-2xl">
+      <Button
+        className="bg-tertiary hover:bg-tertiaryHover w-fit text-white font-normal text-[20px]  px-[4em] py-8 rounded-2xl mb-[4em]"
+        onClick={() => dispatch(nextLeve())}
+      >
         Confirm link
       </Button>
     </div>

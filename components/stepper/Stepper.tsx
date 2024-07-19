@@ -1,7 +1,9 @@
 "use client";
+import { RootState } from "@/app/store";
 import { pages } from "next/dist/build/templates/app-page";
 import Image from "next/image";
 import React, { FC, useState } from "react";
+import { useSelector } from "react-redux";
 interface StepperProps {
   data: {
     title: string;
@@ -10,7 +12,8 @@ interface StepperProps {
   pages: React.ReactNode[];
 }
 const Stepper: FC<StepperProps> = ({ data, pages }) => {
-  const [activeSteps, setActiveSteps] = useState<number[]>([0, 1, 2, 3, 4]);
+  const activeSteps = useSelector((state: RootState) => state.orderStepper);
+
   console.log(pages);
   return (
     <div className="h-full">

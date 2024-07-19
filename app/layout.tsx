@@ -26,7 +26,7 @@ export default function RootLayout({
           <link rel="icon" href="/icons/hizliFavicon.svg" sizes="any" />
         </head>
         <body
-          className={`${robotoCondensed.className}  h-screen flex flex-col `}
+          className={`${robotoCondensed.className}  h-screen flex flex-col  justify-between`}
         >
           <div className="z-10">
             <Navbar />
@@ -35,7 +35,7 @@ export default function RootLayout({
             <MainImage />
           </div>
           {children}
-          <div className="justify-self-end w-full ">
+          <div>
             <Footer />
           </div>
         </body>

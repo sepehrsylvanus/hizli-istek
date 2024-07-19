@@ -68,7 +68,7 @@ const TrackOrder = () => {
               </div>
               <div className="flex justify-between">
                 <div className="flex items-center gap-2">
-                  <div className="px-[2em] border border-gray2 rounded-3xl">
+                  <div className="px-[2em] border -gray2 rounded-3xl">
                     <Image
                       src={"/kafsh.svg"}
                       alt="belt"
@@ -95,9 +95,9 @@ const TrackOrder = () => {
               </div>
             </div>
           </div>
-          <div className="right h-[11rem] ">
+          {/* <div className="right h-[11rem] ">
             <DeliveryMap />
-          </div>
+          </div> */}
         </div>
       </div>
       {/* ========= LAST ORDERS ====== */}
