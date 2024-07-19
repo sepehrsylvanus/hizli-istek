@@ -5,7 +5,7 @@ export function useGetUser(token: string) {
   return useQuery({
     queryKey: ["getCurrentUser"],
     queryFn: async () => {
-      const currentUser = await getMe(token);
+      const currentUser = (await getMe(token)) as User;
       return currentUser;
     },
   });

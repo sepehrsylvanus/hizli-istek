@@ -45,7 +45,8 @@ export const getMe = async (token: string) => {
       },
     });
     console.log(token);
-    return currentUser;
+    console.log(currentUser.data.user);
+    return currentUser.data.user;
   } catch (error) {
     console.log(error);
   }

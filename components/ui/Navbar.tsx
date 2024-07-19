@@ -2,7 +2,7 @@
 import { navItems } from "@/constants/navbar";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import AuthModal from "../authModal/AuthModal";
 import { getToken } from "@/lib/serverUtils";
@@ -22,11 +22,14 @@ import { Button } from "./Button";
 import { logout } from "@/features/authSlice";
 import Cookies from "js-cookie";
 import { useGetUser } from "@/hooks/useUser";
+import { getMe } from "@/actions/authActions";
+import { nextLeve } from "@/features/stepSlice";
 const Navbar = () => {
   const [logoutOpen, setLogoutOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState();
   const token = Cookies.get("token");
   const pathName = usePathname();
-
+  const router = useRouter();
   const isAuthenticated = useSelector((state: RootState) => state.auth.value);
 
   const [showProf, setshowProf] = useState(false);
@@ -39,8 +42,7 @@ const Navbar = () => {
 
   const dispatch = useDispatch();
   console.log(token);
-  const { data: currentUser } = useGetUser(token!);
-  console.log(currentUser);
+
   // ============ HANDLE EFFECT ===========
   useEffect(() => {
     window.addEventListener("storage", updateAuthState);
@@ -64,15 +66,29 @@ const Navbar = () => {
     fetchToken();
   }, []);
 
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      if (token) {
+        const user = await getMe(token);
+
+        setCurrentUser(user);
+      }
+    };
+    fetchCurrentUser();
+  }, [token]);
+
   // ============ END OF HANDLE EFFECT ===========
 
   const openAuth = useSelector((state: RootState) => state.openAuth.value);
   const step = useSelector((state: RootState) => state.step.value);
   console.log(openAuth, step);
-
+  console.log(token);
   const handleLogout = () => {
     dispatch(logout());
+
     setLogoutOpen(false);
+    dispatch(nextLeve("phone"));
+    router.refresh();
   };
 
   return (
@@ -132,13 +148,13 @@ const Navbar = () => {
           })}
         </div>
       </div>
-      {((pathName === "/" && !isAuthenticated) || openAuth) && (
+      {((pathName === "/" && !currentUser) || openAuth || !token) && (
         <div className="navRight">
           <AuthModal openAuth={openAuth} step={step} />
         </div>
       )}
 
-      {pathName === "/" && isAuthenticated && (
+      {pathName === "/" && currentUser && token && (
         <div className="navRight">
           <LoggedInUser setLogoutOpen={setLogoutOpen} />
         </div>

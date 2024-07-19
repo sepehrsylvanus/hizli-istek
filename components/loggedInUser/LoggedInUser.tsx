@@ -22,37 +22,35 @@ import { nextLeve } from "@/features/stepSlice";
 import { RootState } from "@/app/store";
 import { logout } from "@/features/authSlice";
 import Link from "next/link";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Button } from "../ui/Button";
+import Cookies from "js-cookie";
 import { FC } from "react";
+import { useGetUser } from "@/hooks/useUser";
 
 interface LoggedInUserProps {
   setLogoutOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const LoggedInUser: FC<LoggedInUserProps> = ({ setLogoutOpen }) => {
+  const token = Cookies.get("token");
   const dispatch = useDispatch();
 
   const handleMyAcc = () => {
     dispatch(toggle(true));
     dispatch(nextLeve("editProf"));
   };
-
+  const { data: currentUser } = useGetUser(token!);
+  console.log(currentUser);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="bg-white mr-[4.6em] py-2 px-2.5 rounded-2xl hover:text-onColor transition hover:bg-primary flex gap-4 items-center">
-        Mohammad Ayyed <CgProfile className="w-8 h-8" />
+        {currentUser?.name} {currentUser?.lastname}
+        <CgProfile className="w-8 h-8" />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-[12rem] rounded-2xl">
-        <DropdownMenuLabel>Mohammad Ayyed </DropdownMenuLabel>
+        <DropdownMenuLabel>
+          {" "}
+          {currentUser?.name} {currentUser?.lastname}
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="text-base pl-4" onClick={handleMyAcc}>
           My account

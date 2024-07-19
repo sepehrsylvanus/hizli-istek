@@ -36,10 +36,7 @@ import { FaAngleDown } from "react-icons/fa";
 import { Separator } from "../ui/separator";
 import { users } from "@/constants/fakeData";
 import { usePathname, useRouter } from "next/navigation";
-import { useAuth } from "@/features/AuthContext";
-import { useAuthModal } from "@/features/AuthModalContext";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/app/store";
 
 import { nextLeve } from "@/features/stepSlice";
 import { toggle } from "@/features/openAuthSlice";
@@ -60,7 +57,7 @@ interface testProps {
 
 // ============= MAIN COMPONENT ============
 const AuthModal: FC<testProps> = ({ step, openAuth }) => {
-  const route = useRouter();
+  const router = useRouter();
   console.log(step, openAuth);
   useEffect(() => {
     console.log(step, openAuth);
@@ -161,7 +158,7 @@ const AuthModal: FC<testProps> = ({ step, openAuth }) => {
 
       if (ifLogin) {
         mutate(sendPhone.token);
-
+        router.refresh();
         dispatch(toggle(false));
       } else {
         form.setError("password", {
@@ -202,6 +199,7 @@ const AuthModal: FC<testProps> = ({ step, openAuth }) => {
       console.log(ifRegistered);
       if (ifRegistered) {
         mutate(sendPhone.token);
+        router.refresh();
       }
       dispatch(toggle(false));
     }

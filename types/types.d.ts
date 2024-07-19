@@ -11,3 +11,13 @@ type country = {
     alt: string;
   };
 };
+type User = {
+  _id: string;
+  mobile: string;
+  name: string;
+  lastname?: string;
+  role: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+};
