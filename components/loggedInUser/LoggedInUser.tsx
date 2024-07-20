@@ -42,13 +42,12 @@ const LoggedInUser: FC<LoggedInUserProps> = ({ setLogoutOpen }) => {
   console.log(currentUser);
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="bg-white mr-[4.6em] py-2 px-2.5 rounded-2xl hover:text-onColor transition hover:bg-primary flex gap-4 items-center">
+      <DropdownMenuTrigger className="bg-white mr-[4.6em] py-2 px-2.5 rounded-2xl hover:text-onColor transition hover:bg-primary flex gap-4 items-center text-textColor">
         {currentUser?.name} {currentUser?.lastname}
         <CgProfile className="w-8 h-8" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[12rem] rounded-2xl">
-        <DropdownMenuLabel>
-          {" "}
+      <DropdownMenuContent className="w-[12rem] rounded-2xl ">
+        <DropdownMenuLabel className="">
           {currentUser?.name} {currentUser?.lastname}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />

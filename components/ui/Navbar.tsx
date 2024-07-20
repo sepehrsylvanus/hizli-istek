@@ -153,7 +153,7 @@ const Navbar = () => {
         </div>
       )}
 
-      {pathName === "/" && currentUser && token && (
+      {currentUser && token && (
         <div className="navRight">
           <LoggedInUser setLogoutOpen={setLogoutOpen} />
         </div>
