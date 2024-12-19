@@ -4,6 +4,9 @@
 @tailwind utilities;
 
 @layer base {
+  p {
+    @apply text-textColor;
+  }
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
@@ -88,12 +91,6 @@
   bottom: 1em !important;
 }
 
-.swiper-wrapper {
+/* .swiper-wrapper {
   padding-bottom: 3.5em !important;
-}
-.swiper-button-next {
-  color: #06082e !important;
-}
-.swiper-button-prev {
-  color: #06082e !important;
-}
+} */

@@ -7,9 +7,9 @@ import { SlSocialGoogle } from "react-icons/sl";
 
 const Footer = () => {
   return (
-    <footer className="flex justify-between py-7 px-[4.5em] bg-primaryContainer text-textColor mt-[11.5em]">
-      <div className="links">
-        <ul className=" list-disc marker:text-secondaryContainer text-lg font-semibold">
+    <footer className="flex justify-between py-7 px-[4.5em] bg-primaryContainer text-textColor mt-[5em] items-center  w-full">
+      <div className="links ">
+        <ul className=" flex marker:text-secondaryContainer text-lg font-semibold list-none gap-8">
           <Link href={"#"}>
             <li className="hover:socialLinks">About us</li>
           </Link>
@@ -22,7 +22,6 @@ const Footer = () => {
         </ul>
       </div>
       <div className="social flex flex-col justify-between">
-        <p className="font-bold text-lg">Follow us on social media</p>
         <div className="flex gap-8">
           <Link href={"#"} className="hover:socialLinks ">
             <FaInstagram className="w-[2.5rem] h-[2.5rem]" />

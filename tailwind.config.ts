@@ -34,7 +34,10 @@ const config = {
         onColor: "#fff",
         gray1: "#FAF9F9",
         gray2: "#F0EDED",
-
+        gray3: "#D9D9D9",
+        gray4: "#7E7E7E",
+        tertiaryHover: "#BF553E",
+        green: "#3CC330",
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
@@ -75,10 +78,15 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "caret-blink": {
+          "0%,70%,100%": { opacity: "1" },
+          "20%,50%": { opacity: "0" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "caret-blink": "caret-blink 1.25s ease-out infinite",
       },
     },
   },
